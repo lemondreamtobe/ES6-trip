@@ -104,12 +104,74 @@
 
         //用途
         //1.交换变量的值
+        let a = 1, b = 2;
+        [a, b] = [b, a];
+
         //2.从函数返回多个值
+        function returnArray() {
+            return [1,2,3];
+        };
+        let [a, b, c] = returnArray();
+        function returnObject() {
+            return {
+                a: 1,
+                b: 2,
+                c: 3,
+            }
+        };
+        let {a, b, c} = returnObject();
+
         //3.函数参数的定义
+        function f([x, y, z]) { 
+            console.log(x, y ,z);
+        }
+        f([1, 2, 3]);
+
+        function f({x, y, z}) { 
+            console.log(x, y ,z);
+        }
+        f({z: 3, y: 2, x: 1});
+
         //4.提取 JSON 数据
+        let data = require('data.json');
+        let {name:a, id:b, age:c} = data;
+
         //5.函数参数的默认值
+        function dosomething (url, {
+            async = true,
+            beforeSend = function () {},
+            cache = true,
+            complete = function () {},
+            crossDomain = false,
+            global = true,
+            // ... more config
+        } = {}) {
+            // ... do stuff
+        };
+
         //6.遍历 Map 结构
+        const map = new Map();
+        map.set('first', 'hello');
+        map.set('second', 'world');
+
+        for (let [key, value] of map) {
+            console.log(key + " is " + value);
+        }
+        // first is hello
+        // second is world
+
+        // 获取键名
+        for (let [key] of map) {
+        // ...
+        }
+
+        // 获取键值
+        for (let [,value] of map) {
+        // ...
+        }
+
         //7.输入模块的指定方法
+        const { SourceMapConsumer, SourceNode } = require("source-map");
     </script>
 </body>
 </html>
