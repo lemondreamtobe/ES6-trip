@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        "\u{20BB7}" //{}大括号放入码点能正确识别字符，包括超出16进制最大值的一些unicode字符
+
+        //codePointAt方法，能够正确处理 4 个字节储存的字符，返回一个字符的码点。
+        let s = '𠮷a';
+        s.codePointAt(0) // 134071
+        s.codePointAt(1) // 57271
+        s.codePointAt(2) // 97
+
+        //s.length为3，要访问a位置需要传入3，仍然不正确，可以用for..of
+        //因为ES6 为字符串添加了遍历器接口，除了遍历字符串，这个遍历器最大的优点是可以识别大于0xFFFF的码点，传统的for循环无法识别这样的码点。
+        let s = '𠮷a';
+        for (let ch of s) {
+            console.log(ch.codePointAt(0).toString(16));
+        }
+
+
+
+        //判断双字节和四字节字符
+        function is32Bit(c) {
+        return c.codePointAt(0) > 0xFFFF;
+        }
+
+        is32Bit("𠮷") // true
+        is32Bit("a") // false
+
+        //fromCodePoint作用和codePointAt相反，码点返回字符，不同在于fromCodePoint方法定义在String对象上，而codePointAt方法定义在字符串的实例对象上。
+        String.fromCodePoint(0x20BB7); // "𠮷"
+        String.fromCodePoint(0x78, 0x1f680, 0x79) === 'x\uD83D\uDE80y'; // true
+
+        //at方法源于charAt方法，返回字符串参数位置的字符
+        //charAt方法期望返回的是用2个字节表示的字符，但汉字“𠮷”占用了4个字节，charAt(0)表示获取这4个字节中的前2个字节，很显然，这是无法正常显示的。
+        'abc'.at(0) // "a"
+        '𠮷'.at(0) // "𠮷"
+
+        //includes()：返回布尔值，表示是否找到了参数字符串。
+        //startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+        //endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
+        let s = 'Hello world!';
+        s.startsWith('Hello') // true
+        s.endsWith('!') // true
+        s.includes('o') // true
+
+        //repeat(n)方法返回一个新字符串，表示将原字符串重复n次。
+        'x'.repeat(3) // "xxx"
+        'hello'.repeat(2) // "hellohello"
+        'na'.repeat(0) // ""
+
+        //ES2017 引入了字符串补全长度的功能。如果某个字符串不够指定长度，会在头部或尾部补全。padStart()用于头部补全，padEnd()用于尾部补全。
+        //第一个参数为指定长度
+        'x'.padStart(5, 'ab') // 'ababx'
+        'x'.padStart(4, 'ab') // 'abax'
+        'x'.padEnd(5, 'ab') // 'xabab'
+        'x'.padEnd(4, 'ab') // 'xaba'
+
+        //padStart的常见用途是为数值补全指定位数。下面代码生成 10 位的数值字符串。
+        '1'.padStart(10, '0') // "0000000001"
+        '12'.padStart(10, '0') // "0000000012"
+        '123456'.padStart(10, '0') // "0000123456"
+
+        //另一个用途是提示字符串格式。
+        '12'.padStart(10, 'YYYY-MM-DD') // "YYYY-MM-12"
+        '09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
+
+        //模板字符串（template string）是增强版的字符串，用反引号（`）标识
+        //标签模板:而是函数调用的一种特殊形式。“标签”指的就是函数，紧跟在后面的模板字符串就是它的参数。有变量时参数规则有所改变
+    </script>
+</body>
+</html>

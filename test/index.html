@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let total = 30;
+        let msg = passthru `${total*1.05}`;
+
+        function passthru(literals, a, b) {
+            let result = '';
+            let i = 0;
+
+            while (i < literals.length) {
+                result += literals[i++];
+                if (i < arguments.length) {
+                    result += arguments[i];
+                }
+            }
+
+            return result;
+        }
+
+        const TOKEN_Y = /\s*(\+|[0-9]+)\s*/y;
+        const TOKEN_G = /\s*(\+|[0-9]+)\s*/g;
+
+        tokenize(TOKEN_Y, '3 + 4')
+        // [ '3', '+', '4' ]
+        tokenize(TOKEN_G, '3 + 4')
+        // [ '3', '+', '4' ]
+
+        function tokenize(TOKEN_REGEX, str) {
+            let result = [];
+            let match;
+            while (match = TOKEN_REGEX.exec(str)) {
+                result.push(match[1]);
+            }
+            return result;
+        }
+    </script>
+</body>
+
+</html>
