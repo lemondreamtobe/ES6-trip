@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            let -> 声明变量
+            const -> 声明常量 ，不可改变：本质在于变量指向的内存地址不得改动 
+            个人总结四点：
+                1.具有代码块区域性，仅在包裹的区域具有作用域，本质上在于建立了块级作用域
+                2.不存在变量提升，但是在块级作用域中函数声明具有变量提升的特性
+                3.暂时性死区：本质在于只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+                4.全局作用域的声明不再是顶层对象的属性
+        */
+
+        //获取顶层对象方法
+        var getGlobal = function () {
+
+            if (typeof self !== 'undefined') { return self; }
+
+            if (typeof window !== 'undefined') { return window; }
+
+            if (typeof global !== 'undefined') { return global; }
+
+            throw new Error('unable to locate global object');
+        };
+    </script>
+</body>
+</html>
